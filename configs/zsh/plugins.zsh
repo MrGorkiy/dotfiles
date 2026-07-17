@@ -7,13 +7,10 @@ plugins=(
   git history sudo colorize colored-man-pages extract safe-paste
 )
 
-# fzf-tab redraws the command line, so it remains local-only. The other
-# interactive Zsh widgets are safe on macOS and SSH with Ghostty compatibility
-# mode, keeping history and suggestions consistent across machines.
-if (( ! DOTFILES_SSH_SESSION )); then
-  plugins+=(fzf-tab)
-fi
-plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
+# Ghostty compatibility mode keeps this full interactive set stable both
+# locally and over SSH. If a remote terminal starts corrupting input again,
+# disable only fzf-tab there and keep the rest of the shell experience intact.
+plugins+=(fzf-tab zsh-autosuggestions zsh-syntax-highlighting)
 
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"
