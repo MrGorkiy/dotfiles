@@ -20,16 +20,9 @@ echo "$TERM"
 infocmp xterm-ghostty >/dev/null && echo OK || echo MISSING
 ```
 
-Если terminfo отсутствует, скопируйте готовую запись из Ghostty на Mac:
-
-```bash
-ssh mrgorkiy 'mkdir -p ~/.terminfo/78'
-scp /Applications/Ghostty.app/Contents/Resources/terminfo/78/xterm-ghostty \
-  mrgorkiy:~/.terminfo/78/xterm-ghostty
-```
-
-Замените `mrgorkiy` на нужный SSH-host alias. Не оставляйте подмену `TERM`
-постоянным решением: корректный terminfo сохраняет возможности Ghostty.
+Этот репозиторий уже устанавливает в Ghostty `term = xterm-256color` и
+`shell-integration = none`. Полностью перезапустите Ghostty, затем заново
+подключитесь по SSH. Это осознанный compatibility-first режим для серверов.
 
 ## Команда не найдена на Ubuntu
 

@@ -3,6 +3,7 @@ theme = Catppuccin Mocha
 font-family = MesloLGS Nerd Font Mono
 font-size = 15
 font-thicken = true
+term = xterm-256color
 window-padding-x = 14
 window-padding-y = 12
 background-opacity = 0.94
@@ -11,5 +12,7 @@ cursor-style = block
 cursor-style-blink = true
 copy-on-select = false
 mouse-hide-while-typing = true
-shell-integration = detect
+# Compatibility-first: avoids advanced input sequences that some remote Zsh
+# environments mishandle over SSH. Local shell config supplies the prompt.
+shell-integration = none
 macos-titlebar-style = tabs

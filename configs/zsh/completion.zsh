@@ -13,15 +13,22 @@ for fzf_file in \
 done
 
 # Up/down search the current history by the text already typed.
+typeset -g DOTFILES_HISTORY_SUBSTRING_READY=0
 for history_plugin in \
   /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh \
   /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh \
   /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh; do
-  [[ -r "$history_plugin" ]] && source "$history_plugin" && break
+  if [[ -r "$history_plugin" ]]; then
+    source "$history_plugin"
+    DOTFILES_HISTORY_SUBSTRING_READY=1
+    break
+  fi
 done
 bindkey -e
-bindkey '^[[A' history-substring-search-up 2>/dev/null || true
-bindkey '^[[B' history-substring-search-down 2>/dev/null || true
+if (( DOTFILES_HISTORY_SUBSTRING_READY )); then
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"

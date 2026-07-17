@@ -29,7 +29,7 @@ run "${SUDO[@]}" apt-get update
 # prebuilt binaries below, so a local compiler toolchain is not required.
 apt_install_available \
   ca-certificates curl git zsh fzf fd-find ripgrep bat jq zoxide btop ncdu tmux \
-  lnav hyperfine unzip tar xz-utils
+  lnav hyperfine unzip tar xz-utils zsh-history-substring-search
 
 # Debian-family packages deliberately use fdfind/batcat to avoid collisions.
 # Put compatibility links in ~/.local/bin instead of modifying /usr/bin.
