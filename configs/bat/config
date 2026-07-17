@@ -1,4 +1,4 @@
---theme="Catppuccin Mocha"
+--theme="TwoDark"
 --style="numbers,changes,header"
 --paging=auto
 --italic-text=always

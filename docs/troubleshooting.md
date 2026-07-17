@@ -5,9 +5,9 @@
 1. Откройте новый shell: `exec zsh`.
 2. Убедитесь, что в `~/.zshrc.local` нет повторного `autoload -Uz compinit` и
    `compinit`: это уже делает Oh My Zsh.
-3. Временно исключите `fzf-tab` из массива `plugins` в `configs/zsh/plugins.zsh`
-   и снова запустите `exec zsh`, чтобы изолировать проблему.
-4. Не добавляйте тяжёлые рамки или многострочный right prompt в P10K.
+3. По SSH `fzf-tab` отключается автоматически; используется обычное completion
+   Zsh. После обновления конфига запустите `exec zsh`.
+4. Не добавляйте тяжёлые рамки или правый status prompt в P10K.
 
 ## Ghostty через SSH
 
@@ -18,9 +18,16 @@ echo "$TERM"
 infocmp xterm-ghostty >/dev/null && echo OK || echo MISSING
 ```
 
-Если terminfo отсутствует, диагностический тест — `TERM=xterm-256color ssh
-host`. Если с ним артефакты исчезают, установите terminfo Ghostty на сервер;
-не оставляйте подмену `TERM` постоянным решением без необходимости.
+Если terminfo отсутствует, скопируйте готовую запись из Ghostty на Mac:
+
+```bash
+ssh mrgorkiy 'mkdir -p ~/.terminfo/78'
+scp /Applications/Ghostty.app/Contents/Resources/terminfo/78/xterm-ghostty \
+  mrgorkiy:~/.terminfo/78/xterm-ghostty
+```
+
+Замените `mrgorkiy` на нужный SSH-host alias. Не оставляйте подмену `TERM`
+постоянным решением: корректный terminfo сохраняет возможности Ghostty.
 
 ## Команда не найдена на Ubuntu
 

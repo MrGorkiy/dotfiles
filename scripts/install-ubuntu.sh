@@ -25,11 +25,11 @@ apt_install_available() {
 log 'Refreshing APT metadata.'
 run "${SUDO[@]}" apt-get update
 
-# Packages shipped by Ubuntu. Modern Rust CLI tools below are built with a
-# current user-level Rust toolchain, not Ubuntu's often older compiler package.
+# Packages shipped by Ubuntu. The remaining Rust CLI tools are downloaded as
+# prebuilt binaries below, so a local compiler toolchain is not required.
 apt_install_available \
   ca-certificates curl git zsh fzf fd-find ripgrep bat jq zoxide btop ncdu tmux \
-  lnav hyperfine build-essential pkg-config libssl-dev unzip tar xz-utils
+  lnav hyperfine unzip tar xz-utils
 
 # Debian-family packages deliberately use fdfind/batcat to avoid collisions.
 # Put compatibility links in ~/.local/bin instead of modifying /usr/bin.
@@ -49,62 +49,41 @@ link_compat_binary() {
 link_compat_binary fd fdfind
 link_compat_binary bat batcat
 
-version_at_least() {
-  local current="$1" minimum="$2"
-  [[ "$(printf '%s\n%s\n' "$minimum" "$current" | sort -V | tail -n1)" == "$current" ]]
-}
-
-ensure_modern_rust() {
-  local minimum_version='1.82.0' current_version=''
-  if command_exists rustc; then
-    current_version="$(rustc --version | awk '{print $2}')"
-    if version_at_least "$current_version" "$minimum_version"; then
-      log "Using Rust ${current_version}."
-      return 0
-    fi
-  fi
-
+install_binstall() {
+  command_exists cargo-binstall && return 0
   if [[ "${DOTFILES_DRY_RUN:-0}" == "1" ]]; then
-    log "Would install the current stable Rust toolchain (Rust ${minimum_version}+ is required)."
+    log 'Would install cargo-binstall, which downloads prebuilt Rust CLI binaries.'
     return 0
   fi
-
-  if command_exists rustup; then
-    log "Updating Rust ${current_version:-toolchain} to current stable with rustup."
-    rustup toolchain install stable --profile minimal
-    rustup default stable
-  else
-    log "Installing current stable Rust with the official rustup installer."
-    curl --proto '=https' --tlsv1.2 --fail --silent --show-error https://sh.rustup.rs \
-      | sh -s -- -y --profile minimal --no-modify-path
-  fi
-
-  [[ -r "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
-  command_exists cargo && command_exists rustc
+  log 'Installing cargo-binstall for prebuilt Rust CLI binaries.'
+  curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+    https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh \
+    | bash
+  command_exists cargo-binstall
 }
 
-install_cargo_if_missing() {
+install_binary_if_missing() {
   local command_name="$1" package_name="$2"
   if command_exists "$command_name"; then
     log "Already installed: $command_name"
   else
-    log "Installing Rust CLI package: $package_name"
-    run cargo install --locked "$package_name"
+    log "Downloading prebuilt CLI package: $package_name"
+    run cargo-binstall --no-confirm "$package_name"
   fi
 }
 
-if ensure_modern_rust; then
-  install_cargo_if_missing eza eza
-  install_cargo_if_missing dust du-dust
-  install_cargo_if_missing xh xh
-  install_cargo_if_missing watchexec watchexec-cli
-  install_cargo_if_missing delta git-delta
-  install_cargo_if_missing btm bottom
-  install_cargo_if_missing procs procs
-  install_cargo_if_missing atuin atuin
-  install_cargo_if_missing tldr tealdeer
+if install_binstall; then
+  install_binary_if_missing eza eza
+  install_binary_if_missing dust du-dust
+  install_binary_if_missing xh xh
+  install_binary_if_missing watchexec watchexec-cli
+  install_binary_if_missing delta git-delta
+  install_binary_if_missing btm bottom
+  install_binary_if_missing procs procs
+  install_binary_if_missing atuin atuin
+  install_binary_if_missing tldr tealdeer
 else
-  warn 'Rust could not be prepared; eza, dust, xh, watchexec, delta, bottom, procs, Atuin and tldr were not installed.'
+  warn 'cargo-binstall could not be prepared; eza, dust, xh, watchexec, delta, bottom, procs, Atuin and tldr were not installed.'
 fi
 
 # mikefarah/yq publishes portable binaries; this avoids the unrelated Python
