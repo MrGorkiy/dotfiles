@@ -331,8 +331,9 @@ tmux new -s deploy
 
 1. Убедитесь, что нет второго `compinit` после загрузки Oh My Zsh.
 2. Проверьте `zsh -n ~/.zshrc` и откройте новый shell: `exec zsh`.
-3. Убедитесь, что в SSH-сессии `fzf-tab` не загружен: shared-конфиг отключает
-   его автоматически и оставляет обычное completion Zsh.
+3. В SSH-сессии `fzf-tab` тоже включён. Если проблема проявляется только на
+   конкретном сервере, временно уберите `fzf-tab` из `configs/zsh/plugins.zsh`
+   и повторите проверку.
 4. Не добавляйте тяжёлую рамку или правый status prompt P10K.
 
 ### Иконки или ширина prompt выглядят неправильно
@@ -350,16 +351,12 @@ ghostty +list-fonts | rg -i 'Meslo.*Nerd'
 
 ```bash
 echo "$TERM"
-infocmp xterm-ghostty >/dev/null && echo OK || echo MISSING
+infocmp "$TERM" >/dev/null && echo OK || echo MISSING
 ```
 
-Если terminfo отсутствует, скопируйте готовую запись Ghostty с Mac:
-
-```bash
-ssh mrgorkiy 'mkdir -p ~/.terminfo/78'
-scp /Applications/Ghostty.app/Contents/Resources/terminfo/78/xterm-ghostty \
-  mrgorkiy:~/.terminfo/78/xterm-ghostty
-```
+Ожидаемое значение — `xterm-256color`: оно уже есть в Ubuntu и не требует
+копирования terminfo. Если ввод всё равно портится, полностью перезапустите
+Ghostty и подключитесь заново.
 
 Замените `mrgorkiy` на SSH-host alias. Не оставляйте подмену `TERM` как
 постоянное решение: правильный terminfo сохраняет возможности Ghostty.

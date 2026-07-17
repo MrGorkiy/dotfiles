@@ -19,7 +19,7 @@
 
 ```bash
 echo "$TERM"
-infocmp xterm-ghostty >/dev/null && echo OK || echo MISSING
+infocmp "$TERM" >/dev/null && echo OK || echo MISSING
 ```
 
 Этот репозиторий уже устанавливает в Ghostty `term = xterm-256color` и
