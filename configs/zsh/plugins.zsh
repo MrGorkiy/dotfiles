@@ -7,12 +7,13 @@ plugins=(
   git history sudo colorize colored-man-pages extract safe-paste
 )
 
-# SSH keeps standard Zsh completion. The rich input widgets stay local, while
-# the Powerlevel10k prompt is safe again with Ghostty compatibility mode.
+# fzf-tab redraws the command line, so it remains local-only. The other
+# interactive Zsh widgets are safe on macOS and SSH with Ghostty compatibility
+# mode, keeping history and suggestions consistent across machines.
 if (( ! DOTFILES_SSH_SESSION )); then
   plugins+=(fzf-tab)
-  plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
 fi
+plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
 
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"

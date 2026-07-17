@@ -283,8 +283,9 @@ Enter выполнит, а Esc отменит. История локальна, 
 текста. Серое продолжение справа — `zsh-autosuggestions`; принять его можно
 стрелкой `→` или End. Локально `Tab` после `git`, `docker`, пути или опции
 включает `fzf-tab`: печатайте часть названия, выбирайте стрелками, подтверждайте
-Enter. По SSH работает обычное completion Zsh: без `fzf-tab`, autosuggestions и
-syntax highlighting. Prompt при этом остаётся двухстрочным и информативным.
+Enter. По SSH работает обычное completion Zsh без `fzf-tab`, но с теми же
+autosuggestions, syntax highlighting, Atuin и history substring search, что и
+на Mac. Prompt остаётся двухстрочным и информативным.
 
 ## Prompt и Ghostty
 

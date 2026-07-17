@@ -36,4 +36,4 @@ fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
-(( ! DOTFILES_SSH_SESSION && $+commands[atuin] )) && eval "$(atuin init zsh)"
+(( $+commands[atuin] )) && eval "$(atuin init zsh)"
