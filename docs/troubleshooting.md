@@ -5,9 +5,11 @@
 1. Откройте новый shell: `exec zsh`.
 2. Убедитесь, что в `~/.zshrc.local` нет повторного `autoload -Uz compinit` и
    `compinit`: это уже делает Oh My Zsh.
-3. По SSH `fzf-tab` отключается автоматически; используется обычное completion
-   Zsh. После обновления конфига запустите `exec zsh`.
-4. Не добавляйте тяжёлые рамки или правый status prompt в P10K.
+3. По SSH shared-конфиг отключает P10K, `fzf-tab`, autosuggestions и syntax
+   highlighting; остаётся обычное completion Zsh. После обновления выполните
+   `exec zsh` или переподключитесь.
+4. Если линия всё равно портится, запустите чистый тест: `zsh -df`. Если в нём
+   всё нормально, проблема именно в локальных дополнениях shell, а не в Ghostty.
 
 ## Ghostty через SSH
 

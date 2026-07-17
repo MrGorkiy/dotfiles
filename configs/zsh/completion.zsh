@@ -25,4 +25,4 @@ bindkey '^[[B' history-substring-search-down 2>/dev/null || true
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
-(( $+commands[atuin] )) && eval "$(atuin init zsh)"
+(( ! DOTFILES_SSH_SESSION && $+commands[atuin] )) && eval "$(atuin init zsh)"

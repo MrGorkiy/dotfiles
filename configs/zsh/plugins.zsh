@@ -1,19 +1,29 @@
 # Oh My Zsh owns compinit; do not call compinit again in local settings.
+typeset -g DOTFILES_SSH_SESSION=0
+[[ -n "${SSH_CONNECTION:-}" || -n "${SSH_TTY:-}" ]] && DOTFILES_SSH_SESSION=1
+
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git history sudo colorize colored-man-pages extract safe-paste
 )
 
-# fzf-tab redraws the whole command line. Standard Zsh completion is more
-# reliable inside SSH, especially before a remote terminal database is fixed.
-if [[ -z "${SSH_CONNECTION:-}" && -z "${SSH_TTY:-}" ]]; then
+# SSH uses a deliberately conservative ZLE setup. It keeps standard Zsh
+# completion but avoids prompt and highlighting widgets that can redraw an
+# unreliable remote terminal line incorrectly.
+if (( ! DOTFILES_SSH_SESSION )); then
   plugins+=(fzf-tab)
+  plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
+else
+  ZSH_THEME=""
 fi
-
-plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
 
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"
 fi
 
-[[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+if (( DOTFILES_SSH_SESSION )); then
+  PROMPT='%F{yellow}%n@%m%f %F{blue}%~%f %# '
+  RPROMPT=''
+else
+  [[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+fi
