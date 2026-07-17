@@ -1,0 +1,15 @@
+# Ghostty for a focused, low-noise development terminal on macOS.
+theme = Catppuccin Mocha
+font-family = MesloLGS Nerd Font Mono
+font-size = 15
+font-thicken = true
+window-padding-x = 14
+window-padding-y = 12
+background-opacity = 0.94
+background-blur-radius = 24
+cursor-style = block
+cursor-style-blink = true
+copy-on-select = false
+mouse-hide-while-typing = true
+shell-integration = detect
+macos-titlebar-style = tabs

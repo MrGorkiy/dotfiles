@@ -1,0 +1,9 @@
+# Local-first command history. Run `atuin register` only if you explicitly want sync.
+auto_sync = false
+sync_frequency = "0"
+search_mode = "fuzzy"
+filter_mode = "global"
+style = "compact"
+inline_height = 18
+show_preview = true
+exit_mode = "return-query"

@@ -1,0 +1,21 @@
+# Operating system and editor files
+.DS_Store
+**/.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local backups and machine-specific overrides
+backups/
+.dotfiles-backups/
+*.local
+*.local.*
+!configs/zsh/.zshrc.local.example
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+
+# Managed only on individual machines; never commit private shell settings.
+.zshrc.local

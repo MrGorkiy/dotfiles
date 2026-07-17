@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Create a directory path. In Zsh, use `mkcd dir` to enter it in the same shell.
+set -euo pipefail
+
+if (( $# != 1 )); then
+  printf 'Usage: %s <directory>\n' "${0##*/}" >&2
+  exit 2
+fi
+
+mkdir -p -- "$1"
+printf 'Created: %s\n' "$1"
+printf 'To enter it in the current shell: cd -- %q\n' "$1"

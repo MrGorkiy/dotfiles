@@ -1,0 +1,18 @@
+# Private machine-specific Zsh settings.
+# This file is created once by install.sh and is never managed by Git.
+# Put SDK paths, work helpers, keys loaded by a keychain, and local exports here.
+
+# Example: Python managed outside the shared dotfiles.
+# export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# (( $+commands[pyenv] )) && eval "$(pyenv init - zsh)"
+
+# Example: lazy-load NVM so every new terminal remains quick.
+# export NVM_DIR="$HOME/.nvm"
+# nvm() { unset -f nvm node npm npx; source "$NVM_DIR/nvm.sh"; nvm "$@"; }
+# node() { unset -f nvm node npm npx; source "$NVM_DIR/nvm.sh"; node "$@"; }
+# npm() { unset -f nvm node npm npx; source "$NVM_DIR/nvm.sh"; npm "$@"; }
+# npx() { unset -f nvm node npm npx; source "$NVM_DIR/nvm.sh"; npx "$@"; }
+
+# Example: LM Studio CLI.
+# export PATH="$PATH:$HOME/.lmstudio/bin"

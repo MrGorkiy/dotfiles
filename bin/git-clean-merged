@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Safely list local branches already merged into the selected base branch.
+# It never deletes branches: review the list, then remove branches yourself.
+set -euo pipefail
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  printf 'Run this command inside a Git repository.\n' >&2
+  exit 1
+fi
+
+base="${1:-}"
+if [[ -z "$base" ]]; then
+  if git show-ref --verify --quiet refs/heads/main; then
+    base=main
+  elif git show-ref --verify --quiet refs/heads/master; then
+    base=master
+  else
+    printf 'Pass a base branch: %s <branch>\n' "${0##*/}" >&2
+    exit 2
+  fi
+fi
+
+git show-ref --verify --quiet "refs/heads/$base" || {
+  printf 'Local base branch not found: %s\n' "$base" >&2
+  exit 1
+}
+
+printf 'Local branches merged into %s (except %s):\n' "$base" "$base"
+git branch --merged "$base" --format='%(refname:short)' | \
+  awk -v base="$base" '$0 != base { print }'

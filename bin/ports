@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Show local TCP listeners using the tool available on the current OS.
+set -euo pipefail
+
+if command -v lsof >/dev/null 2>&1; then
+  exec lsof -nP -iTCP -sTCP:LISTEN
+elif command -v ss >/dev/null 2>&1; then
+  exec ss -lntp
+fi
+
+printf 'Neither lsof nor ss is installed.\n' >&2
+exit 1
