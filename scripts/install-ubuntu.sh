@@ -112,11 +112,36 @@ if install_binstall; then
   install_binary_if_missing delta git-delta
   install_binary_if_missing btm bottom
   install_binary_if_missing procs procs
-  install_binary_if_missing atuin atuin
   install_binary_if_missing tldr tealdeer
 else
-  warn 'cargo-binstall could not be prepared; eza, dust, xh, watchexec, delta, bottom, procs, Atuin and tldr were not installed.'
+  warn 'cargo-binstall could not be prepared; eza, dust, xh, watchexec, delta, bottom, procs and tldr were not installed.'
 fi
+
+# Atuin releases now require glibc 2.39 for the GNU build. Its official
+# installer detects older Ubuntu releases (including 22.04) and selects the
+# compatible musl archive instead. Do not use the outer setup script here: it
+# would append directly to the managed ~/.zshrc.
+install_atuin() {
+  local installer
+  if command_exists atuin && atuin --version >/dev/null 2>&1; then
+    log 'Already installed and runnable: atuin'
+    return
+  fi
+  if [[ "${DOTFILES_DRY_RUN:-0}" == "1" ]]; then
+    log 'Would install a glibc-compatible Atuin binary from the official installer.'
+    return
+  fi
+  log 'Installing a glibc-compatible Atuin binary.'
+  installer="$(mktemp)"
+  curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+    https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh \
+    --output "$installer"
+  ATUIN_NO_MODIFY_PATH=1 sh "$installer"
+  rm -f "$installer"
+  "$HOME/.atuin/bin/atuin" --version
+}
+
+install_atuin
 
 # mikefarah/yq publishes portable binaries; this avoids the unrelated Python
 # package and Snap confinement on Ubuntu.

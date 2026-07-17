@@ -15,6 +15,7 @@ done
 # Up/down search the current history by the text already typed.
 typeset -g DOTFILES_HISTORY_SUBSTRING_READY=0
 for history_plugin in \
+  "$ZSH/custom/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" \
   /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh \
   /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh \
   /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh; do

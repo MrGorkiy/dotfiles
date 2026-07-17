@@ -83,7 +83,7 @@ git branch --all | fzf    # выбрать ветку
 | `Ctrl+R` | Atuin: поиск по всей истории |
 | `Ctrl+T` | выбрать файл и вставить его путь |
 | `Alt+C` | выбрать каталог и перейти в него |
-| `Tab` | локально: fzf-tab; по SSH: стандартное Zsh completion |
+| `Tab` | fzf-tab: интерактивный выбор completion на Mac и по SSH |
 | `↑` / `↓` | history substring search по уже введённому тексту |
 | `→` | принять серую подсказку autosuggestions |
 
