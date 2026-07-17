@@ -28,6 +28,10 @@ bindkey -e
 if (( DOTFILES_HISTORY_SUBSTRING_READY )); then
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
+else
+  # Keep normal shell history usable if the optional plugin is absent.
+  bindkey '^[[A' up-line-or-history
+  bindkey '^[[B' down-line-or-history
 fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'

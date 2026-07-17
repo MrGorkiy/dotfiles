@@ -9,7 +9,9 @@ mkcd() {
 
 terminal-help() {
   local cheatsheet="$DOTFILES_REPO/docs/cheatsheet.md"
-  if (( $+commands[bat] )); then
+  if (( $+commands[glow] )); then
+    glow --tui "$cheatsheet"
+  elif (( $+commands[bat] )); then
     bat --paging=always --style=plain "$cheatsheet"
   else
     less "$cheatsheet"

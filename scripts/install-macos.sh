@@ -18,7 +18,7 @@ fi
 
 brew_packages=(
   zsh git fzf zoxide eza bat fd ripgrep dust ncdu xh jq yq hyperfine watchexec
-  git-delta lazygit gh tmux btop bottom lnav tldr procs atuin
+  git-delta lazygit gh tmux btop bottom lnav tldr procs atuin glow
   zsh-history-substring-search
 )
 log 'Installing or updating Homebrew CLI packages.'

@@ -49,6 +49,38 @@ link_compat_binary() {
 link_compat_binary fd fdfind
 link_compat_binary bat batcat
 
+install_glow() {
+  local arch asset_url temp_dir package
+  command_exists glow && return
+  if [[ "$DOTFILES_DRY_RUN" == "1" ]]; then
+    log 'Would download the latest Glow Markdown renderer.'
+    return
+  fi
+  case "$(uname -m)" in
+    x86_64) arch=amd64 ;;
+    aarch64|arm64) arch=arm64 ;;
+    *) warn "No Glow release mapping for architecture: $(uname -m)"; return ;;
+  esac
+  asset_url="$(curl --fail --silent --show-error --location \
+    https://api.github.com/repos/charmbracelet/glow/releases/latest \
+    | grep -Eo '"browser_download_url": "[^"]+glow_[^"]+_'"$arch"'\.deb"' \
+    | head -n1 | sed -E 's/"browser_download_url": "(.*)"/\1/' || true)"
+  if [[ -z "$asset_url" ]]; then
+    warn 'Could not resolve a Glow release asset.'
+    return
+  fi
+  temp_dir="$(mktemp -d)"
+  package="$temp_dir/glow.deb"
+  curl --fail --location --output "$package" "$asset_url"
+  if [[ "$EUID" == "0" ]]; then
+    apt-get install -y "$package"
+  else
+    sudo apt-get install -y "$package"
+  fi
+  unlink "$package"
+  rmdir "$temp_dir"
+}
+
 install_binstall() {
   command_exists cargo-binstall && return 0
   if [[ "${DOTFILES_DRY_RUN:-0}" == "1" ]]; then
@@ -154,5 +186,6 @@ install_gh() {
 
 install_lazygit
 install_gh
+install_glow
 
 install_shell_plugins
