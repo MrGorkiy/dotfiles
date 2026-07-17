@@ -7,23 +7,15 @@ plugins=(
   git history sudo colorize colored-man-pages extract safe-paste
 )
 
-# SSH uses a deliberately conservative ZLE setup. It keeps standard Zsh
-# completion but avoids prompt and highlighting widgets that can redraw an
-# unreliable remote terminal line incorrectly.
+# SSH keeps standard Zsh completion. The rich input widgets stay local, while
+# the Powerlevel10k prompt is safe again with Ghostty compatibility mode.
 if (( ! DOTFILES_SSH_SESSION )); then
   plugins+=(fzf-tab)
   plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
-else
-  ZSH_THEME=""
 fi
 
 if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"
 fi
 
-if (( DOTFILES_SSH_SESSION )); then
-  PROMPT='%F{yellow}%n@%m%f %F{blue}%~%f %# '
-  RPROMPT=''
-else
-  [[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
-fi
+[[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
