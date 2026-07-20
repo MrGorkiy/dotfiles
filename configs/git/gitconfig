@@ -15,7 +15,8 @@
     file-decoration-style = none
     hunk-header-decoration-style = cyan box ul
 [merge]
-    conflictstyle = zdiff3
+    # diff3 works on Ubuntu 22.04's Git 2.34 as well as modern macOS Git.
+    conflictstyle = diff3
 [diff]
     colorMoved = default
 [pull]
