@@ -6,5 +6,9 @@ export VISUAL="${VISUAL:-$EDITOR}"
 # ahead of Cargo so it can replace an incompatible cargo-binstall release.
 export PATH="$DOTFILES_REPO/bin:$HOME/.atuin/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
 
+# The official Go archive installs here on many Linux servers. Keep an existing
+# manual installation usable without forcing a second Go package via APT.
+[[ -x /usr/local/go/bin/go ]] && export PATH="/usr/local/go/bin:$PATH"
+
 # Docker completion must be on fpath before Oh My Zsh runs compinit.
 [[ -d "$HOME/.docker/completions" ]] && fpath=("$HOME/.docker/completions" $fpath)
